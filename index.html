@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title> Life Game</title>
+        <link rel="stylesheet" href="stylesheet/index.css">
+    </head>
+    <body>
+    <div class="game-window">
+        <div class="game-side-bar">
+            <h1> Life game </h1>
+            <p id="all-robot-count"> All robot count : 0 </p>
+        </div>
+        <div id="game-board">
+            <div class="game-board-line">
+                <div class="game-board-cell"><p> 7.8 </p></div>
+                <div class="game-board-cell"><p> 7.8 </p></div>
+                <div class="game-board-cell"><p> 7.8 </p></div>
+            </div>
+
+            <div class="game-board-line">
+                <div class="game-board-cell"><p> 7.8 </p></div>
+                <div class="game-board-cell"><p> 7.8 </p></div>
+                <div class="game-board-cell game-board-cell-robot-hunter"><p> 7.8 </p></div>
+            </div>
+
+            <div class="game-board-line">
+                <div class="game-board-cell game-board-cell-robot-vegan"><p> 7.8 </p></div>
+                <div class="game-board-cell"><p> 7.8 </p></div>
+                <div class="game-board-cell game-board-cell-robot-corpse"><p> 7.8 </p></div>
+            </div>
+        </div>
+        <div id="show-genome">
+            <div id="show-genome-robot" class="show-genome-item"></div>
+            <hr>
+            <div id="show-genome-vegan" class="show-genome-item"></div>
+            <hr>
+            <div id="show-genome-hunter" class="show-genome-item"></div>
+            <hr>
+        </div>
+    </div>
+    <script src="scripts/index.js" ></script>
+    </body>
+</html>

@@ -1,0 +1,55 @@
+html{
+
+}
+p{
+    margin: 0;
+}
+.game-window{
+    display: flex;
+    flex-direction: row;
+}
+.game-side-bar{
+    margin: 2vw;
+    border: black 1px solid;
+    width: 20%;
+}
+
+#game-board{
+    margin-top: 2vw;
+    border: black 2px solid;
+    display: inline-block;
+    font-family: revert-layer, sans-serif;
+    font-size: smaller;
+}
+.game-board-line{
+    margin: 0.05vw;
+    display: flex;
+    flex-direction: row;
+}
+.game-board-cell{
+    display: flex;
+    justify-content: center;
+    margin: 0.05vw;
+    border: black 1px solid;
+    width: 1vw;
+    height: 1vw;
+}
+.game-board-cell-robot-vegan{
+    background: mediumseagreen;
+}
+.game-board-cell-robot-corpse{
+    background: gray;
+}
+.game-board-cell-robot-hunter{
+    background: indianred;
+}
+#show-genome{
+    width: 20%;
+    margin: 2vw;
+}
+.show-genome-item{
+    width: 100%;
+}
+.show-genome-item p{
+    word-wrap: break-word;
+}
