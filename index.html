@@ -10,6 +10,106 @@
         <div class="game-side-bar">
             <h1> Life game </h1>
             <p id="all-robot-count"> All robot count : 0 </p>
+            <button id="reload-game"> Reload game </button>
+            <button id="pause-game" data-status="play"> Play </button>
+            <hr>
+            <br>
+            <hr>
+            <label for="select-mouse-mode">Выберите режим мыши:</label>
+            <select id="select-mouse-mode" class="combobox">
+                <option value="game-settings"> + Настройка игры + </option>
+                <option value="show-robot-genome"> Просмотр генома </option>
+                <option value="set-vegan-robot">Установка Vegan </option>
+                <option value="set-hunter-robot"> Установка Hunter </option>
+                <option value="set-corpse-robot"> Установка Corpse </option>
+                <option value="del-robot"> - Удаление - </option>
+            </select>
+            <div id="select-mouse-mode-menu">
+                <div id="select-mouse-mode-menu-game-settings">
+                    <br>
+                    <p id="show-game-speed"> Game speed: 0 </p>
+                    <input type="range" min="0" max="1000" value="50" id="edit-game-speed">
+                    <br>
+                    <h3> Corpse </h3>
+                    <label for="mouse-mode-menu-setting-corpse-energy"> Стартовая энергия: </label>
+                    <input type="number" id="mouse-mode-menu-setting-corpse-energy" name="numberInput" min="1" max="100000" step="1">
+                    <br>
+                    <label for="mouse-mode-menu-setting-corpse-turn-die"> Ходов до уничтожения: </label>
+                    <input type="number" id="mouse-mode-menu-setting-corpse-turn-die" name="numberInput" min="1" max="100000" step="1">
+
+                    <h3> Vegan </h3>
+                    <label for="mouse-mode-menu-setting-vegan-energy"> Начальная энергия: </label>
+                    <input type="number" id="mouse-mode-menu-setting-vegan-energy" name="numberInput" min="1" max="100000" step="1">
+                    <br>
+                    <label for="mouse-mode-menu-setting-vegan-turn-die"> Ходов до старости: </label>
+                    <input type="number" id="mouse-mode-menu-setting-vegan-turn-die" name="numberInput" min="1" max="100000" step="1">
+                    <br>
+                    <label for="mouse-mode-menu-setting-vegan-append-chield"> Порог размножения: </label>
+                    <input type="number" id="mouse-mode-menu-setting-vegan-append-chield" name="numberInput" min="1" max="100000" step="1">
+                    <br>
+                    <label for="mouse-mode-menu-setting-vegan-share-energy"> % распределения энергии: </label>
+                    <input type="number" id="mouse-mode-menu-setting-vegan-share-energy" name="numberInput" min="1" max="100" step="1">
+                    <br>
+                    <label for="mouse-mode-menu-setting-vegan-spends-energy"> Тратит энергии за ход: </label>
+                    <input type="number" id="mouse-mode-menu-setting-vegan-spends-energy" name="numberInput" min="1" max="100" step="1">
+                    <br>
+                    <label for="mouse-mode-menu-setting-vegan-receives-energy"> Получает энергии за ход: </label>
+                    <input type="number" id="mouse-mode-menu-setting-vegan-receives-energy" name="numberInput" min="1" max="100" step="1">
+
+                    <h3> Hunter </h3>
+                    <label for="mouse-mode-menu-setting-hunter-energy"> Начальная энергия: </label>
+                    <input type="number" id="mouse-mode-menu-setting-hunter-energy" name="numberInput" min="1" max="100000" step="1">
+                    <br>
+                    <label for="mouse-mode-menu-setting-hunter-turn-die"> Ходов до старости: </label>
+                    <input type="number" id="mouse-mode-menu-setting-hunter-turn-die" name="numberInput" min="1" max="100000" step="1">
+                    <br>
+                    <label for="mouse-mode-menu-setting-hunter-append-chield"> Порог размножения: </label>
+                    <input type="number" id="mouse-mode-menu-setting-hunter-append-chield" name="numberInput" min="1" max="100000" step="1">
+                    <!--<br>
+                    <label for="mouse-mode-menu-setting-hunter-share-energy"> % распределения энергии: </label>
+                    <input type="number" id="mouse-mode-menu-setting-hunter-share-energy" name="numberInput" min="1" max="100" step="1">-->
+                    <br>
+                    <label for="mouse-mode-menu-setting-hunter-spends-energy"> Тратит энергии за ход: </label>
+                    <input type="number" id="mouse-mode-menu-setting-hunter-spends-energy" name="numberInput" min="1" max="100" step="1">
+                    <br>
+                    <label for="mouse-mode-menu-setting-hunter-receives-energy"> Получает энергии за ход: </label>
+                    <input type="number" id="mouse-mode-menu-setting-hunter-receives-energy" name="numberInput" min="1" max="100" step="1">
+                </div>
+                <div id="select-mouse-mode-menu-set-corpse-robot" style="display: none;">
+                    <br>
+                    <label for="select-mouse-mode-menu-set-corpse-robot-energy"> Стартовая энергия Corpse: </label>
+                    <input type="number" id="select-mouse-mode-menu-set-corpse-robot-energy" name="numberInput" min="1" max="100000" step="1">
+                </div>
+                <div id="select-mouse-mode-menu-set-hunter-robot" style="display: none;">
+                    <br>
+                    <label for="select-mouse-mode-menu-set-hunter-robot-energy"> Стартовая энергия Hunter: </label>
+                    <input type="number" id="select-mouse-mode-menu-set-hunter-robot-energy" name="numberInput" min="1" max="100000" step="1">
+                    <div id="select-mouse-mode-menu-set-hunter-robot-genome"></div>
+                    <br>
+                    <button id="select-mouse-mode-menu-set-hunter-robot-genome-random"> Random gen </button>
+                    <button id="select-mouse-mode-menu-set-hunter-robot-genome-clear"> Clear Gen </button>
+                </div>
+                <div id="select-mouse-mode-menu-set-vegan-robot" style="display: none;">
+                    <br>
+                    <label for="select-mouse-mode-menu-set-vegan-robot-energy"> Стартовая энергия Vegan: </label>
+                    <input type="number" id="select-mouse-mode-menu-set-vegan-robot-energy" name="numberInput" min="1" max="100000" step="1">
+                    <div id="select-mouse-mode-menu-set-vegan-robot-genome"></div>
+                    <br>
+                    <button id="select-mouse-mode-menu-set-vegan-robot-genome-random"> Random gen </button>
+                    <button id="select-mouse-mode-menu-set-vegan-robot-genome-clear"> Clear Gen </button>
+                </div>
+                <div id="select-mouse-mode-menu-see-gen-robot" style="display: none;">
+                    <br>
+                    <div id="select-mouse-mode-menu-see-genome">
+                        <label for="select-mouse-mode-menu-see-robot-energy"> Изменить энергию: </label>
+                        <input type="number" id="select-mouse-mode-menu-see-robot-energy" name="numberInput" min="1" max="100000" step="1">
+                        <div id="select-mouse-mode-menu-see-robot-genome"></div>
+                        <button id="select-mouse-mode-menu-see-robot-genome-accept"> Применить </button>
+                    </div>
+                </div>
+            </div>
+            <hr>
+
         </div>
         <div id="game-board">
             <div class="game-board-line">

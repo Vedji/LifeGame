@@ -53,3 +53,17 @@ p{
 .show-genome-item p{
     word-wrap: break-word;
 }
+.select-mouse-mode-menu-item{
+    display: none;
+}
+.gen-input-cell{
+    width: 1.8vw;
+    margin: 0.2vw;
+    border: black 1px solid;
+    border-radius: 1vw;
+    padding: 0.2vw;
+}
+#select-mouse-mode-menu-set-hunter-robot-genome, #select-mouse-mode-menu-set-vegan-robot{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
