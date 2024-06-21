@@ -67,3 +67,22 @@ p{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
 }
+.select-mode-menu-input-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 0.2vw;
+}
+.select-mode-menu-input-item > input{
+    width: 5vw;
+    margin-right: 1vw;
+}
+.select-mode-menu-input-item > label{
+    margin-left: 1vw;
+}
+.select-mode-menu-input-item > p{
+    margin-left: 1vw;
+}
+#select-mouse-mode-menu-game-settings > h3{
+    margin-left: 0.5vw;
+}

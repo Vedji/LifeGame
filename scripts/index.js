@@ -1,22 +1,9 @@
 let game_speed = 1;                                 // Скорость игры
 const width = 32;                                   // Ширина игрового поля
 const height = 32;                                  // Высота игрового поля
-const robotEnergy = 300;                            // Стартовая энергия робота
+let mouse_mode = "game-settings";                     // Режим нажатия мыши на ячейку
 const genomeLength = 64;                            // Длинна генома
 const genomeRuleMax = 32;                           // Максимальное значение в ячейки генома
-const randomChildGenome = 4;                        // Сколько ген будет заменено у ребенка
-const childAppendEnergyThreshold = 600;             // Порог при котором клетка будет пытаться заспавнить новую клетку
-const childEnergy = 300;                            // Сколько энергии клетка отдаст своему клону
-const moveEnergyCost = 10;                          // Сколько энергии нужно для перемещения клетки
-const energyPerTurn = 10;                           // Сколько энергии добавляется каждый ход
-const corpseEnergyBase = robotEnergy;               // Сколько изначально энергии у мертвого робота
-const corpseEnergyRemovedPerTick = 10;              // Сколько энергии убывает кажщдый тик у мертвой клетки
-const hunterEnergyMoveCost = 5;                     // Сколько энергии потребляет охотник за ход
-const hunterStartedEnergy = 300;                    // Стартовое количество энергии охотника
-const childHunterAppendEnergyThreshold = 1600;      // Порог при котором клетка будет пытаться заспавнить новую клетку
-const childHunterEnergy = 300;                      // Сколько энергии клетка отдаст своему клону
-let turnToDie = 250;                                // Ходов до того, как клетка перестане получать энергию с поля
-let mouse_mode = "game-settings";                     // Режим нажатия мыши на ячейку
 
 let ROBOT_START_ENERGY = 300;
 let ROBOT_TURN_TO_DIE = 400;
@@ -35,12 +22,115 @@ let VEGAN_ROBOT_ENERGY_THRESHOLD_CHILD = 600;
 let VEGAN_ROBOT_ENERGY_SHARED = 0.15;
 let VEGAN_ROBOT_ENERGY_SPELLS = 10;
 let VEGAN_ROBOT_ENERGY_APPEND = 5;
+let VEGAN_ROBOT_GEN_COUNT_MODIFY = 5;
 
 let HUNTER_ROBOT_START_ENERGY = 300;
 let HUNTER_ROBOT_TURN_TO_DIE = 400;
 let HUNTER_ROBOT_ENERGY_THRESHOLD_CHILD = 600;
 let HUNTER_ROBOT_ENERGY_SPELLS = 10;
 let HUNTER_ROBOT_ENERGY_APPEND = 5;
+let HUNTER_ROBOT_GEN_COUNT_MODIFY = 5;
+
+const GAME_SETTINGS_INPUT = {
+    "mouse-mode-menu-setting-corpse-energy": {
+        "start_value": CORPSE_ROBOT_START_ENERGY,
+        "min_value": 0,
+        "max_value": 10000,
+        "value_step": 1,
+        "click_edit_value": (value) => { CORPSE_ROBOT_START_ENERGY = value; }
+    },
+    "mouse-mode-menu-setting-corpse-turn-die": {
+        "start_value": CORPSE_ROBOT_TURN_TO_DIE,
+        "min_value": 0,
+        "max_value": 10000,
+        "value_step": 1,
+        "click_edit_value": (value) => { CORPSE_ROBOT_TURN_TO_DIE = value; }
+    },
+    "mouse-mode-menu-setting-vegan-energy": {
+        "start_value": VEGAN_ROBOT_START_ENERGY,
+        "min_value": 0,
+        "max_value": 10000,
+        "value_step": 1,
+        "click_edit_value": (value) => { VEGAN_ROBOT_START_ENERGY = value; }
+    },
+    "mouse-mode-menu-setting-vegan-turn-die": {
+        "start_value": VEGAN_ROBOT_START_ENERGY,
+        "min_value": 0,
+        "max_value": 10000,
+        "value_step": 1,
+        "click_edit_value": (value) => { VEGAN_ROBOT_START_ENERGY = value; }
+    },
+    "mouse-mode-menu-setting-vegan-append-child": {
+        "start_value": VEGAN_ROBOT_ENERGY_APPEND,
+        "min_value": 0,
+        "max_value": 10000,
+        "value_step": 1,
+        "click_edit_value": (value) => { VEGAN_ROBOT_ENERGY_APPEND = value; }
+    },
+    "mouse-mode-menu-setting-vegan-share-energy": {
+        "start_value": VEGAN_ROBOT_ENERGY_SHARED,
+        "min_value": 0,
+        "max_value": 100,
+        "value_step": 0.01,
+        "click_edit_value": (value) => { VEGAN_ROBOT_ENERGY_SHARED = value; }
+    },
+    "mouse-mode-menu-setting-vegan-spends-energy": {
+        "start_value": VEGAN_ROBOT_ENERGY_SPELLS,
+        "min_value": 0,
+        "max_value": 10000,
+        "value_step": 1,
+        "click_edit_value": (value) => { VEGAN_ROBOT_ENERGY_SPELLS = value; }
+    },
+    "mouse-mode-menu-setting-vegan-receives-energy": {
+        "start_value": VEGAN_ROBOT_ENERGY_APPEND,
+        "min_value": 0,
+        "max_value": 10000,
+        "value_step": 1,
+        "click_edit_value": (value) => { VEGAN_ROBOT_ENERGY_APPEND = value; }
+    },
+    "mouse-mode-menu-setting-vegan-gen-mod": {
+        "start_value": VEGAN_ROBOT_GEN_COUNT_MODIFY,
+        "min_value": 0,
+        "max_value": genomeLength,
+        "value_step": 1,
+        "click_edit_value": (value) => { VEGAN_ROBOT_GEN_COUNT_MODIFY = value; }
+    },
+    "mouse-mode-menu-setting-hunter-energy": {
+        "start_value": HUNTER_ROBOT_START_ENERGY,
+        "min_value": 0,
+        "max_value": 10000,
+        "value_step": 1,
+        "click_edit_value": (value) => { HUNTER_ROBOT_START_ENERGY = value; }
+    },
+    "mouse-mode-menu-setting-hunter-turn-die": {
+        "start_value": HUNTER_ROBOT_START_ENERGY,
+        "min_value": 0,
+        "max_value": 10000,
+        "value_step": 1,
+        "click_edit_value": (value) => { HUNTER_ROBOT_START_ENERGY = value; }
+    },
+    "mouse-mode-menu-setting-hunter-append-child": {
+        "start_value": HUNTER_ROBOT_START_ENERGY,
+        "min_value": 0,
+        "max_value": 10000,
+        "value_step": 1,
+        "click_edit_value": (value) => { HUNTER_ROBOT_START_ENERGY = value; }
+    },
+    "mouse-mode-menu-setting-hunter-spends-energy": {
+        "start_value": HUNTER_ROBOT_START_ENERGY,
+        "min_value": 0,
+        "max_value": 10000,
+        "value_step": 1,
+        "click_edit_value": (value) => { HUNTER_ROBOT_START_ENERGY = value; }
+    },
+    "mouse-mode-menu-setting-hunter-gen-mod": {
+        "start_value": HUNTER_ROBOT_GEN_COUNT_MODIFY,
+        "min_value": 0,
+        "max_value": genomeLength,
+        "value_step": 1,
+        "click_edit_value": (value) => { HUNTER_ROBOT_GEN_COUNT_MODIFY = value; }
+    },
+};
 
 
 
@@ -87,7 +177,7 @@ class Robot {
         if (x === new_x && y === new_y)
             return;
         this.energy = this.energy - this.c_energy_threshold_child;
-        field[new_y][new_x].setRobot(new Robot(this.c_energy_started, new_genome));
+        field[new_y][new_x].setRobot(new Robot(ROBOT_START_ENERGY, new_genome));
         field[new_y][new_x].updateCell();
     }
 
@@ -203,6 +293,7 @@ class Robot {
         let command_moved = this.robot_commands[this.genome[current_turn] % 8];
         return this._move(command_moved, x, y, field);
     }
+
     shareEnergy(x, y, field){
         let directions = ["up-left", "up", "up-right", "right", "down-right", "down", "down-left", "left"]
         for (let i = 0; i < directions.length; i++) {
@@ -257,7 +348,7 @@ class Robot {
         if (this.dieRobot(x, y, field))
             return true;
 
-        if (this.energy > childAppendEnergyThreshold)
+        if (this.energy > ROBOT_ENERGY_THRESHOLD_CHILD)
             this.appendChild(x, y, field);
 
         let rule = this.genome[this.turn];
@@ -283,8 +374,25 @@ class Robot {
 class VeganRobot extends Robot{
     constructor(energy = null, genome = null) {
         super(energy, genome);
+        this.energy = energy === null ? VEGAN_ROBOT_START_ENERGY : energy;
         this.robotType = "vegan"
         this.show_genome = document.getElementById("show-genome-vegan");
+        this.c_energy_started = VEGAN_ROBOT_START_ENERGY;
+        this.c_turn_to_die = VEGAN_ROBOT_TURN_TO_DIE;
+        this.c_energy_threshold_child = VEGAN_ROBOT_ENERGY_THRESHOLD_CHILD;
+        this.c_energy_shared = VEGAN_ROBOT_ENERGY_SHARED;
+        this.c_energy_spells = VEGAN_ROBOT_ENERGY_SPELLS;
+        this.c_energy_append = VEGAN_ROBOT_ENERGY_APPEND;
+        this.c_gen_modifed_count = VEGAN_ROBOT_GEN_COUNT_MODIFY;
+        console.log(this.c_energy_started);
+    }
+
+    appendChildToField(x, y, new_x, new_y, field, new_genome){
+        if (x === new_x && y === new_y)
+            return;
+        this.energy = this.energy - this.c_energy_threshold_child;
+        field[new_y][new_x].setRobot(new VeganRobot(VEGAN_ROBOT_START_ENERGY, new_genome));
+        field[new_y][new_x].updateCell();
     }
 }
 
@@ -292,10 +400,11 @@ class VeganRobot extends Robot{
 class Corpse extends Robot{
     constructor(energy = null, genome = null) {
         super(energy, genome);
-        this.energy = energy === null ? corpseEnergyBase : energy;
+        this.energy = energy === null ? CORPSE_ROBOT_START_ENERGY : energy;
         this.robotType = "corpse";
         this.show_genome = document.getElementById("show-genome-hunter");
-
+        this.c_energy_started = CORPSE_ROBOT_START_ENERGY;
+        this.c_turn_to_die = CORPSE_ROBOT_TURN_TO_DIE;
     }
 
     dieRobot(x, y, field){
@@ -306,15 +415,16 @@ class Corpse extends Robot{
     }
 
     updateRobot(x, y, field){
-        this.energy -= corpseEnergyRemovedPerTick;
+        this.energy -= ROBOT_ENERGY_SPELLS;
+        if (this.turns_count > this.c_energy_started)
+            this.energy = 0;
         if (this.dieRobot(x, y, field))
             return true;
-        if (this.energy > childAppendEnergyThreshold)
-            this.appendChild(x, y, field);
         let coords = this._move("down", x, y, field);
         x = coords["dx"];
         y = coords["dy"];
         field[y][x].updateCell();
+        this.turns_count += 1;
         return false;
     }
 }
@@ -322,7 +432,8 @@ class Corpse extends Robot{
 
 class Hunter extends Robot{
     constructor(energy = null, genome = null) {
-        super(energy === null ? hunterStartedEnergy : energy, genome);
+        super(energy === null ? HUNTER_ROBOT_START_ENERGY : energy, genome);
+        this.energy = energy === null ? HUNTER_ROBOT_START_ENERGY : energy;
         this.robotType = "hunter";
         this.show_genome = document.getElementById("show-genome-hunter");
         this.robot_commands = {
@@ -336,13 +447,20 @@ class Hunter extends Robot{
             7: "left",
             8: "move"
         }
+        this.c_energy_started = HUNTER_ROBOT_START_ENERGY;
+        this.c_turn_to_die = HUNTER_ROBOT_TURN_TO_DIE;
+        this.c_energy_threshold_child = HUNTER_ROBOT_ENERGY_THRESHOLD_CHILD;
+        this.c_energy_shared = 0;
+        this.c_energy_spells = HUNTER_ROBOT_ENERGY_SPELLS;
+        this.c_energy_append = HUNTER_ROBOT_ENERGY_APPEND;
+        this.c_gen_modifed_count = HUNTER_ROBOT_GEN_COUNT_MODIFY;
     }
 
     appendChildToField(x, y, new_x, new_y, field, new_genome){
         if (x === new_x && y === new_y)
             return;
-        this.energy = this.energy - childEnergy;
-        field[new_y][new_x].setRobot(new Hunter(childEnergy, new_genome));
+        this.energy = this.energy - this.c_energy_started;
+        field[new_y][new_x].setRobot(new Hunter(HUNTER_ROBOT_START_ENERGY, new_genome));
         field[new_y][new_x].updateCell();
     }
 
@@ -356,7 +474,7 @@ class Hunter extends Robot{
             moved_cell.setNullRobot();
         }
         if (moved_cell.isCellBusy() && moved_cell.value.robotType === "vegan"){
-            this.energy += moved_cell.value.energy + corpseEnergyBase;
+            this.energy += moved_cell.value.energy + VEGAN_ROBOT_START_ENERGY;
             moved_cell.setNullRobot();
         }
         if (moved_cell.isCellBusy())
@@ -367,17 +485,17 @@ class Hunter extends Robot{
     }
 
     robotEnergyEat(x, y, field) {
-        this.energy -= hunterEnergyMoveCost;
+        this.energy -= this.c_energy_spells;
     }
 
     updateRobot(x, y, field){
         this.robotEnergyEat(x, y, field);
-        if (this.turns_count < turnToDie)
+        if (this.turns_count < this.c_turn_to_die)
             this.robotEnergyAppend(x, y, field);
         if (this.dieRobot(x, y, field))
             return true;
 
-        if (this.energy > childAppendEnergyThreshold)
+        if (this.energy > this.c_energy_threshold_child)
             this.appendChild(x, y, field);
 
         let rule = this.genome[this.turn];
@@ -402,10 +520,9 @@ class Cell {
         this.cell_show_element = cell_show_element;
 
         this.cell_show_element.addEventListener("click", () => {
+            console.log(mouse_mode);
             switch (mouse_mode) {
-                case "del-robot":
-                    this.setNullRobot();
-                    break;
+
                 case "set-corpse-robot":
                     let corpse_energy = document.getElementById("select-mouse-mode-menu-set-corpse-robot-energy");
                     this.setCorpseRobot(new Corpse(corpse_energy.value === "" ? 0 : corpse_energy.value));
@@ -415,14 +532,14 @@ class Cell {
                     let hunter_genome = [];
                     for (let item of document.getElementById("select-mouse-mode-menu-set-hunter-robot-genome").getElementsByTagName("input"))
                         hunter_genome.push( item.value === "" || item.value < 0 || item.value >= genomeRuleMax ? 0 : item.value);
-                    this.setHunterRobot(new Hunter(hunter_energy === "" ? hunterStartedEnergy : hunter_energy, hunter_genome));
+                    this.setHunterRobot(new Hunter(hunter_energy === "" ? HUNTER_ROBOT_START_ENERGY : hunter_energy, hunter_genome));
                     break;
                 case "set-vegan-robot":
                     let vegan_energy = document.getElementById("select-mouse-mode-menu-set-vegan-robot-energy").value;
                     let vegan_genome = [];
                     for (let item of document.getElementById("select-mouse-mode-menu-set-vegan-robot-genome").getElementsByTagName("input"))
                         vegan_genome.push( item.value === "" || item.value < 0 || item.value >= genomeRuleMax ? 0 : item.value);
-                    this.setVeganRobot(new VeganRobot(vegan_energy === "" ? robotEnergy : vegan_energy, vegan_genome));
+                    this.setVeganRobot(new VeganRobot(vegan_energy === "" ? VEGAN_ROBOT_START_ENERGY : vegan_energy, vegan_genome));
                     break;
                 case "show-robot-genome":
                     if(!this.isCellBusy())
@@ -441,25 +558,26 @@ class Cell {
                         gen_see.value = this.value.genome[i];
                         gen_case.appendChild(gen_see);
                     }
-                    let robot_energy = document.getElementById("select-mouse-mode-menu-see-robot-energy");
-                    this.value.energy = robot_energy.value;
+                    let robot_energy = document.getElementById("select-mouse-mode-menu-see-robot-energy").value = this.value.energy;
                     document.getElementById("select-mouse-mode-menu-see-robot-genome-accept").addEventListener("click", () => {
                         let robot_energy = document.getElementById("select-mouse-mode-menu-see-robot-energy").value;
+                        this.value.energy = robot_energy.value;
                         let robot_genome = [];
                         for (let item of document.getElementById("select-mouse-mode-menu-see-robot-genome").getElementsByTagName("input"))
                             robot_genome.push( item.value === "" || item.value < 0 || item.value >= genomeRuleMax ? 0 : item.value);
                         this.value.energy = robot_energy === "" ? this.value.energy : robot_energy;
                         this.value.genome = robot_genome;
                         this.updateCell();
-                        // this.setVeganRobot(new VeganRobot(robot_energy === "" ? robotEnergy : vegan_energy, vegan_genome));
                     })
-                    this.updateCell();
+                    break;
+                case "del-robot":
+                    this.setNullRobot();
                     break;
 
 
             }
             // this.value = new Hunter();
-        })
+        });
     }
 
 
@@ -615,7 +733,7 @@ class GameBoard{
             for (let i = 0; i < 4; i++){
                 let x = Math.floor(Math.random() * (width - 1));
                 let y = Math.floor(Math.random() * (height - 1));
-                this.board_cells[y][x].setRobot(new VeganRobot(robotEnergy, this.last_alive));
+                this.board_cells[y][x].setRobot(new VeganRobot(VEGAN_ROBOT_START_ENERGY, this.last_alive));
             }
         }
         for (let i = 0; i < 8; i++){
@@ -701,12 +819,19 @@ document.getElementById("select-mouse-mode").onchange = (ev) => {
     switch (mouse_mode) {
         case "game-settings":
             items["game-settings"].style.display = "block";
+            mouse_mode = "game-settings";
             break;
         case "set-corpse-robot":
             items["set-corpse-robot"].style.display = "block";
+            mouse_mode = "set-corpse-robot";
+            let corpse_energy = document.getElementById("select-mouse-mode-menu-set-corpse-robot-energy");
+            corpse_energy.value = CORPSE_ROBOT_START_ENERGY;
             break;
         case "set-hunter-robot":
             items["set-hunter-robot"].style.display = "block";
+            mouse_mode = "set-hunter-robot";
+            let hunter_energy = document.getElementById("select-mouse-mode-menu-set-hunter-robot-energy");
+            hunter_energy.value = HUNTER_ROBOT_START_ENERGY;
             let gen_case_hunter = document.getElementById("select-mouse-mode-menu-set-hunter-robot-genome");
             gen_case_hunter.innerHTML = "";
             for (let i = 0; i < genomeLength; i++){
@@ -721,6 +846,9 @@ document.getElementById("select-mouse-mode").onchange = (ev) => {
             break;
         case "set-vegan-robot":
             items["set-vegan-robot"].style.display = "block";
+            mouse_mode = "set-vegan-robot";
+            let vegan_energy = document.getElementById("select-mouse-mode-menu-set-vegan-robot-energy");
+            vegan_energy.value = VEGAN_ROBOT_START_ENERGY;
             let gen_case_vegan = document.getElementById("select-mouse-mode-menu-set-vegan-robot-genome");
             gen_case_vegan.innerHTML = "";
             for (let i = 0; i < genomeLength; i++){
@@ -735,6 +863,7 @@ document.getElementById("select-mouse-mode").onchange = (ev) => {
             break;
         case "show-robot-genome":
             items["show-robot-genome"].style.display = "block";
+            mouse_mode = "show-robot-genome";
             let gen_case = document.getElementById("select-mouse-mode-menu-see-robot-genome")
             gen_case.innerHTML = "";
             let robot_energy = document.getElementById("select-mouse-mode-menu-see-robot-energy");
@@ -743,3 +872,17 @@ document.getElementById("select-mouse-mode").onchange = (ev) => {
 
     }
 };
+
+
+for (let key of  Object.keys(GAME_SETTINGS_INPUT)){
+    let inp_element = document.getElementById(key);
+    inp_element.setAttribute("value", GAME_SETTINGS_INPUT[key]["start_value"]);
+    inp_element.setAttribute("min", GAME_SETTINGS_INPUT[key]["min_value"]);
+    inp_element.setAttribute("max", GAME_SETTINGS_INPUT[key]["max_value"]);
+    inp_element.setAttribute("step", GAME_SETTINGS_INPUT[key]["value_step"]);
+    inp_element.oninput = (ev) => {
+      if (ev.target.value === "")
+          return;
+        GAME_SETTINGS_INPUT[key]["click_edit_value"](ev.target.value);
+    };
+}
