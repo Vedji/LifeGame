@@ -15,6 +15,7 @@ let ROBOT_GEN_COUNT_MODIFY = 5;
 
 let CORPSE_ROBOT_START_ENERGY = 300;
 let CORPSE_ROBOT_TURN_TO_DIE = 400;
+let CORPSE_ROBOT_ENERGY_SPELLS = 10;
 
 let VEGAN_ROBOT_START_ENERGY = 300;
 let VEGAN_ROBOT_TURN_TO_DIE = 400;
@@ -103,25 +104,25 @@ const GAME_SETTINGS_INPUT = {
         "click_edit_value": (value) => { HUNTER_ROBOT_START_ENERGY = value; }
     },
     "mouse-mode-menu-setting-hunter-turn-die": {
-        "start_value": HUNTER_ROBOT_START_ENERGY,
+        "start_value": HUNTER_ROBOT_TURN_TO_DIE,
         "min_value": 0,
         "max_value": 10000,
         "value_step": 1,
-        "click_edit_value": (value) => { HUNTER_ROBOT_START_ENERGY = value; }
+        "click_edit_value": (value) => { HUNTER_ROBOT_TURN_TO_DIE = value; }
     },
     "mouse-mode-menu-setting-hunter-append-child": {
-        "start_value": HUNTER_ROBOT_START_ENERGY,
+        "start_value": HUNTER_ROBOT_ENERGY_APPEND,
         "min_value": 0,
         "max_value": 10000,
         "value_step": 1,
-        "click_edit_value": (value) => { HUNTER_ROBOT_START_ENERGY = value; }
+        "click_edit_value": (value) => { HUNTER_ROBOT_ENERGY_APPEND = value; }
     },
     "mouse-mode-menu-setting-hunter-spends-energy": {
-        "start_value": HUNTER_ROBOT_START_ENERGY,
+        "start_value": HUNTER_ROBOT_ENERGY_SPELLS,
         "min_value": 0,
         "max_value": 10000,
         "value_step": 1,
-        "click_edit_value": (value) => { HUNTER_ROBOT_START_ENERGY = value; }
+        "click_edit_value": (value) => { HUNTER_ROBOT_ENERGY_SPELLS = value; }
     },
     "mouse-mode-menu-setting-hunter-gen-mod": {
         "start_value": HUNTER_ROBOT_GEN_COUNT_MODIFY,
@@ -130,6 +131,13 @@ const GAME_SETTINGS_INPUT = {
         "value_step": 1,
         "click_edit_value": (value) => { HUNTER_ROBOT_GEN_COUNT_MODIFY = value; }
     },
+    "mouse-mode-menu-setting-corpse-energy-spells": {
+        "start_value": CORPSE_ROBOT_ENERGY_SPELLS,
+        "min_value": 0,
+        "max_value": 10000,
+        "value_step": 1,
+        "click_edit_value": (value) => { CORPSE_ROBOT_ENERGY_SPELLS = value; }
+    }
 };
 
 
@@ -415,7 +423,7 @@ class Corpse extends Robot{
     }
 
     updateRobot(x, y, field){
-        this.energy -= ROBOT_ENERGY_SPELLS;
+        this.energy -= CORPSE_ROBOT_ENERGY_SPELLS;
         if (this.turns_count > this.c_energy_started)
             this.energy = 0;
         if (this.dieRobot(x, y, field))
