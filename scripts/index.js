@@ -554,11 +554,16 @@ class Cell {
                         gen_see.setAttribute("min", "0");
                         gen_see.setAttribute("max", genomeRuleMax + "");
                         gen_see.setAttribute("step", "1");
+
                         gen_see.setAttribute("class", "gen-input-cell")
+                        if (this.value.turn === i)
+                            gen_see.style.background = "green";
                         gen_see.value = this.value.genome[i];
                         gen_case.appendChild(gen_see);
+
                     }
-                    let robot_energy = document.getElementById("select-mouse-mode-menu-see-robot-energy").value = this.value.energy;
+
+                    document.getElementById("select-mouse-mode-menu-see-robot-energy").value = this.value.energy;
                     document.getElementById("select-mouse-mode-menu-see-robot-genome-accept").addEventListener("click", () => {
                         let robot_energy = document.getElementById("select-mouse-mode-menu-see-robot-energy").value;
                         this.value.energy = robot_energy.value;

@@ -15,15 +15,17 @@
             <hr>
             <br>
             <hr>
-            <label for="select-mouse-mode">Выберите режим мыши:</label>
-            <select id="select-mouse-mode" class="combobox">
-                <option value="game-settings"> + Настройка игры + </option>
-                <option value="show-robot-genome"> Просмотр генома </option>
-                <option value="set-vegan-robot">Установка Vegan </option>
-                <option value="set-hunter-robot"> Установка Hunter </option>
-                <option value="set-corpse-robot"> Установка Corpse </option>
-                <option value="del-robot"> - Удаление - </option>
-            </select>
+            <div class="select-mode-menu-input-item">
+                <label for="select-mouse-mode">Выберите режим мыши:</label>
+                <select id="select-mouse-mode" class="combobox">
+                    <option value="game-settings"> + Настройка игры + </option>
+                    <option value="show-robot-genome"> Просмотр генома </option>
+                    <option value="set-vegan-robot">Установка Vegan </option>
+                    <option value="set-hunter-robot"> Установка Hunter </option>
+                    <option value="set-corpse-robot"> Установка Corpse </option>
+                    <option value="del-robot"> - Удаление - </option>
+                </select>
+            </div>
             <div id="select-mouse-mode-menu">
                 <div id="select-mouse-mode-menu-game-settings">
                     <hr>
@@ -102,13 +104,17 @@
                 </div>
                 <div id="select-mouse-mode-menu-set-corpse-robot" style="display: none;">
                     <br>
-                    <label for="select-mouse-mode-menu-set-corpse-robot-energy"> Стартовая энергия Corpse: </label>
-                    <input type="number" id="select-mouse-mode-menu-set-corpse-robot-energy" name="numberInput" min="1" max="100000" step="1">
+                    <div class="select-mode-menu-input-item">
+                        <label for="select-mouse-mode-menu-set-corpse-robot-energy"> Стартовая энергия Corpse: </label>
+                        <input type="number" id="select-mouse-mode-menu-set-corpse-robot-energy" name="numberInput" min="1" max="100000" step="1">
+                    </div>
                 </div>
                 <div id="select-mouse-mode-menu-set-hunter-robot" style="display: none;">
                     <br>
-                    <label for="select-mouse-mode-menu-set-hunter-robot-energy"> Стартовая энергия Hunter: </label>
-                    <input type="number" id="select-mouse-mode-menu-set-hunter-robot-energy" name="numberInput" min="1" max="100000" step="1">
+                    <div class="select-mode-menu-input-item">
+                        <label for="select-mouse-mode-menu-set-hunter-robot-energy"> Стартовая энергия Hunter: </label>
+                        <input type="number" id="select-mouse-mode-menu-set-hunter-robot-energy" name="numberInput" min="1" max="100000" step="1">
+                    </div>
                     <div id="select-mouse-mode-menu-set-hunter-robot-genome"></div>
                     <br>
                     <button id="select-mouse-mode-menu-set-hunter-robot-genome-random"> Random gen </button>
@@ -116,8 +122,10 @@
                 </div>
                 <div id="select-mouse-mode-menu-set-vegan-robot" style="display: none;">
                     <br>
-                    <label for="select-mouse-mode-menu-set-vegan-robot-energy"> Стартовая энергия Vegan: </label>
-                    <input type="number" id="select-mouse-mode-menu-set-vegan-robot-energy" name="numberInput" min="1" max="100000" step="1">
+                    <div class="select-mode-menu-input-item">
+                        <label for="select-mouse-mode-menu-set-vegan-robot-energy"> Стартовая энергия Vegan: </label>
+                        <input type="number" id="select-mouse-mode-menu-set-vegan-robot-energy" name="numberInput" min="1" max="100000" step="1">
+                    </div>
                     <div id="select-mouse-mode-menu-set-vegan-robot-genome"></div>
                     <br>
                     <button id="select-mouse-mode-menu-set-vegan-robot-genome-random"> Random gen </button>
@@ -126,9 +134,13 @@
                 <div id="select-mouse-mode-menu-see-gen-robot" style="display: none;">
                     <br>
                     <div id="select-mouse-mode-menu-see-genome">
-                        <label for="select-mouse-mode-menu-see-robot-energy"> Изменить энергию: </label>
-                        <input type="number" id="select-mouse-mode-menu-see-robot-energy" name="numberInput" min="1" max="100000" step="1">
+                        <div class="select-mode-menu-input-item">
+                            <label for="select-mouse-mode-menu-see-robot-energy"> Изменить энергию: </label>
+                            <input type="number" id="select-mouse-mode-menu-see-robot-energy" name="numberInput" min="1" max="100000" step="1">
+                        </div>
+                        <br>
                         <div id="select-mouse-mode-menu-see-robot-genome"></div>
+                        <br>
                         <button id="select-mouse-mode-menu-see-robot-genome-accept"> Применить </button>
                     </div>
                 </div>

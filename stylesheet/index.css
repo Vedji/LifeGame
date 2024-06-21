@@ -11,7 +11,8 @@ p{
 .game-side-bar{
     margin: 2vw;
     border: black 1px solid;
-    width: 20%;
+    width: 22%;
+    height: fit-content;
 }
 
 #game-board{
@@ -20,6 +21,7 @@ p{
     display: inline-block;
     font-family: revert-layer, sans-serif;
     font-size: smaller;
+    height: fit-content;
 }
 .game-board-line{
     margin: 0.05vw;
@@ -60,12 +62,7 @@ p{
     width: 1.8vw;
     margin: 0.2vw;
     border: black 1px solid;
-    border-radius: 1vw;
-    padding: 0.2vw;
-}
-#select-mouse-mode-menu-set-hunter-robot-genome, #select-mouse-mode-menu-set-vegan-robot{
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
+
 }
 .select-mode-menu-input-item{
     display: flex;
@@ -77,6 +74,10 @@ p{
     width: 5vw;
     margin-right: 1vw;
 }
+.select-mode-menu-input-item > select{
+    width: 8vw;
+    margin-right: 1vw;
+}
 .select-mode-menu-input-item > label{
     margin-left: 1vw;
 }
@@ -85,4 +86,8 @@ p{
 }
 #select-mouse-mode-menu-game-settings > h3{
     margin-left: 0.5vw;
+}
+#select-mouse-mode-menu-see-robot-genome{
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
 }
